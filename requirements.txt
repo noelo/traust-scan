@@ -4,3 +4,4 @@ referencing
 pyyaml
 playwright
 pytest
+boto3
