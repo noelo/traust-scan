@@ -14,19 +14,12 @@ metadata:
 
 
 One SQLite file answering ad-hoc leadership questions in a query instead
-of a JSON walk. **It is a projection, never an authority**: `/census`
-owns the denominators, the disposition ledgers (`*-findings-layer.json`)
-remain the source of truth and the only write path, and this DB is
-rebuilt from them — deleting it loses nothing.
+of a JSON walk. **It is a projection, never an authority**: the
+disposition ledgers (`*-findings-layer.json`) remain the source of truth
+and the only write path, and this DB is rebuilt from them — deleting it
+loses nothing.
 
 ## Tables of note
-
-Alongside the findings/events/validations core, the DB projects
-`/impact-analysis` artifacts (`analysis-results/impact/`) into an
-`impact` table — `SELECT repo_id, classification, evidence_level FROM
-impact WHERE cve = 'CVE-…'` answers blast-radius questions without a
-JSON read. Projection only: the artifacts stay the source of truth, and
-`/drift-watch` flags artifacts older than the graph they queried.
 
 ## Build / refresh
 
@@ -131,15 +124,13 @@ GROUP BY 1 ORDER BY 2 DESC LIMIT 10;
 
 **Consumes:** the per-repo disposition ledgers `*-findings-layer.json`
 and preferred reports (corpus resolution via python3 -m traust.cli corpus;
-producer: `/track-findings` and the audit skills), `/impact-analysis`
-artifacts under `analysis-results/impact/` (projected into the `impact`
-table), and repo-graph edges (`graph_edges`).
+producer: `/track-findings` and the audit skills), and repo-graph edges
+(`graph_edges`).
 
 **Emits:** `analysis-results/graph/findings.db` (via
 python3 -m traust.cli corpus findings-db) — a projection, never an authority
-(docs/disposition-ledger.md §11b). Besides this skill, `/census`
-(Step 2c) and `/refresh-dashboards` (projections stage) rebuild it;
-`/sla-view` and `/compliance-check` rebuild-if-stale before reading.
+(docs/disposition-ledger.md §11b). This skill rebuilds it on demand
+(`refresh` mode).
 
 **Consumers** (all read-only accelerators — none may author a verdict
 or substitute for the ledger):
@@ -147,15 +138,6 @@ or substitute for the ledger):
 | Skill | Touchpoint |
 |---|---|
 | `/vuln-scan` | diff-mode baseline resolution (`resolve_baseline.py --db`) |
-| `/verify-remediation` | sweep scoping / accelerator queries |
-| `/dependency-watch` | `impact` table + `repos` baselines |
-| `/compliance-check` | `findings_db` collector — pre-shaped views over ledger conclusions |
-| `/sla-view` | python3 -m traust.cli metrics sla clock inputs |
-| `/fleet-fix` | optional candidate listing (`v_open` + `graph_edges`) |
-| `/mine-ledger` | optional cluster-shape pre-queries (DB for scoping; the miner stays file-based) |
-| `/traust-metrics` | cloud-config lane (`collect_harness_metrics.py`) |
-| `/refresh-dashboards` | downstream dashboard builders read the fresh projection |
-| `/drift-watch` | staleness sentinel (`built_at` vs newest ledger/report mtime) — watches the DB, never queries findings from it |
 
 The daily rescan router (python3 -m traust.cli build rescan-worklist) also reads
 it when assembling the diff-lane worklist.

@@ -2,7 +2,7 @@
 
 The schemas, packaged CLIs and key scripts that make up the harness's deterministic tooling.
 
-The schemas below (from the installed `traust-contracts` package) are the complete set; the scripts listed are the key entry points — packaged CLIs live under `src/traust/`, and skill-specific tooling lives alongside each skill in its own `scripts/` — under a stage directory for workflow skills (`harnessing/4-triage/triage/scripts/`), at the `harnessing/` root for the rest.
+The schemas below (from the installed `traust-contracts` package) are the complete set; the scripts listed are the key entry points — packaged CLIs live under `src/traust/`, and skill-specific tooling lives alongside each skill in its own `scripts/` — under a stage directory for workflow skills (`harnessing/3-triage/triage/scripts/`), at the `harnessing/` root for the rest.
 
 | Component | Purpose |
 |---|---|
@@ -44,12 +44,12 @@ The schemas below (from the installed `traust-contracts` package) are the comple
 | python3 -m traust.migrations.repair_threat_model | Mechanical threat-model repair — row-fracture pipe escaping, enum synonym remaps; writes only when lint errors strictly decrease |
 | python3 -m traust.cli reporting render | Renders validated JSON reports to Markdown |
 | python3 -m traust.cli reporting sarif | Exports any report (incl. disposition-aware findings-current and cloud-config audits) to SARIF 2.1.0 for any SARIF consumer — a derived projection, dispositions become suppressions; `--results-root` batch sweep |
-| harnessing/4-triage/triage/scripts/render_triage.py | Renders triage reports |
+| harnessing/3-triage/triage/scripts/render_triage.py | Renders triage reports |
 | python3 -m traust.cli.check_citations | Citation verification gate for findings |
-| harnessing/4-triage/triage/scripts/lint_verdict_citations.py | Verdict citation linter |
+| harnessing/3-triage/triage/scripts/lint_verdict_citations.py | Verdict citation linter |
 | python3 -m traust.cli.build_symbol_index | Builds symbol index for triage acceleration |
 | python3 -m traust.cli.query_index | Queries the symbol index |
-| harnessing/4-triage/track-findings/scripts/baseline_claims.py | Baseline claim extraction |
+| harnessing/3-triage/track-findings/scripts/baseline_claims.py | Baseline claim extraction |
 | python3 -m traust.cli.emit_triage_ledger_events | Emits triage→ledger events from triage output |
 | python3 -m traust.migrations.reemit_legacy_triage | Migrates legacy triage data to current format |
 | python3 -m traust.cli.countersign | Countersign workflow support |

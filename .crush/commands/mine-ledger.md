@@ -1,1 +1,0 @@
-../../.claude/commands/mine-ledger.md

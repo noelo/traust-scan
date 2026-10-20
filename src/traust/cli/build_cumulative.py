@@ -16,7 +16,7 @@ Usage (from the workspace root):
   python3 -m traust.cli.build_cumulative \
       <audit.json> <layer.json> [--out <basepath>] [--generated-at ISO8601]
 
-Merge rules (keep in sync with harnessing/4-triage/track-findings/SKILL.md):
+Merge rules (keep in sync with harnessing/3-triage/track-findings/SKILL.md):
   validity   — EVIDENCE-CLASS precedence (harness >= 0.27.0): class 1
                execution-verified sources (validation_report,
                verification_report) > class 2 human static determinations >
@@ -721,7 +721,7 @@ def main(argv=None):
             "baseline — the audit report's claims no longer match the "
             "layer's claim_hashes. Restore the report (or re-baseline "
             "'corrected' findings via"
-            "harnessing/4-triage/track-findings/scripts/baseline_claims.py).",
+            "harnessing/3-triage/track-findings/scripts/baseline_claims.py).",
             file=sys.stderr,
         )
         return 2

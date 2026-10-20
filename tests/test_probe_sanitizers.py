@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for harnessing/3-audit/secure-code-audit/scripts/probe_sanitizers.py — the Phase-B3 (D4 narrow slice)
+"""Tests for harnessing/2-scan/secure-code-audit/scripts/probe_sanitizers.py — the Phase-B3 (D4 narrow slice)
 sanitizer micro-probe lane tool. The bypassable-sanitizer fixture mirrors
 bt-awx-001 residual #3 (a sanitize_jinja that strips ASCII jinja markers
 but not variants); the soundness fixtures pin the Phase-1 rule that an

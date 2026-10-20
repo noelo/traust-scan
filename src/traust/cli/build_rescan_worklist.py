@@ -224,7 +224,7 @@ CHURN_FULL_LINES = 8000  # rule-2 C threshold (plan §2.3)
 CHURN_FULL_RATIO = 0.10  # rule-2 R threshold
 SENSITIVE_MIN_LINES = 200  # rule-3
 # Diff-resolver refusal threshold — small shared copy of
-# harnessing/3-audit/vuln-scan/scripts/resolve_baseline.py MAX_CHANGED_FILE_RATIO
+# harnessing/2-scan/vuln-scan/scripts/resolve_baseline.py MAX_CHANGED_FILE_RATIO
 # (same convention as parse_pinned_sha above).
 MAX_CHANGED_FILE_RATIO = 0.30
 PREROUTE_MIN_FILES = 3  # ratio pre-check only when >= this many
@@ -283,7 +283,7 @@ TM_SURFACE_RX = re.compile(
     re.I,
 )
 # Phase 2: only these release-bump kinds re-model. The feeder classifies
-# (harnessing/2-threat-model/threat-model/scripts/build_release_events.py
+# (harnessing/1-threat-model/threat-model/scripts/build_release_events.py
 #  REMODEL_CHANGES) — kept as a literal
 # here so the router never depends on the feeder being importable.
 RELEASE_REMODEL_CHANGES = ("major", "minor")

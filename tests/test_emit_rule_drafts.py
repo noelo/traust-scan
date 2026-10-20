@@ -159,7 +159,7 @@ def test_verify_pass_and_fail(tmp_path):
 @pytest.mark.skipif(not HAVE_OPENGREP, reason="opengrep not on PATH")
 def test_promoted_codecov_rule_calibrates():
     """The pack's first regression rule keeps firing on its fixture."""
-    pack = _ROOT / "harnessing/3-audit/secure-code-audit/opengrep-rules/bash"
+    pack = _ROOT / "harnessing/2-scan/secure-code-audit/opengrep-rules/bash"
     proc = subprocess.run(
         [
             "opengrep",

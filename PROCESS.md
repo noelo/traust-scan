@@ -126,7 +126,7 @@ The full contract: [docs/disposition-ledger.md](docs/disposition-ledger.md) §6b
 
 ## Stage 5 — Live Validation
 
-**Skills:** ``validate-operator-live`` (internal extension repo) (orchestration) → ``deploy-operator`` (internal extension repo) + [`validate-findings`](.claude/skills/validate-findings/SKILL.md) · [`validate-browser-finding`](harnessing/5-validate/validate-browser-finding/SKILL.md) (web UI vulns) · ``validate-core-ocp`` (internal extension repo)
+**Skills:** ``validate-operator-live`` (internal extension repo) (orchestration) → ``deploy-operator`` (internal extension repo) + [`validate-findings`](.claude/skills/validate-findings/SKILL.md) · [`validate-browser-finding`](harnessing/4-validate/validate-browser-finding/SKILL.md) (web UI vulns) · ``validate-core-ocp`` (internal extension repo)
 
 Prove or refute audit findings against an **authorized live
 environment**, then chain confirmed findings into multi-step

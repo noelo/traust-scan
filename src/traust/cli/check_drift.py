@@ -933,7 +933,7 @@ def check_checkov_pin(ws: Path) -> list[dict]:
     )
     refresh = (
         "review release notes; bump PINNED_CHECKOV_VERSION in "
-        "harnessing/3-audit/cloud-config-audit/scripts/run_checkov.py; update "
+        "harnessing/2-scan/cloud-config-audit/scripts/run_checkov.py; update "
         "the docs/external-dependencies.md verified date; "
         "re-baseline one known IaC tree before a sweep "
         "(deliberate config change)"
@@ -1139,7 +1139,7 @@ def check_threat_model_staleness(ws: Path) -> list[dict]:
     refresh = (
         "the threat-model-quarterly lane is not draining — run "
         "python3 -m traust.cli.build_rescan_worklist, "
-        "then python3 harnessing/2-threat-model/threat-model/scripts/"
+        "then python3 harnessing/1-threat-model/threat-model/scripts/"
         "emit_drain_tranche.py, and dispatch the "
         "threat-model rows (/threat-model review --auto); cadence "
         "plan: progress-tracker/plans/threat-model-cadence-plan.md"
@@ -1831,7 +1831,7 @@ def check_pqc_facts_provenance(ws: Path) -> list[dict]:
                 "drift",
                 f"{len(bad)}/{len(sample)} sampled facts files violate "
                 f"contracts/schemas/pqc-facts.schema.json (e.g. {', '.join(bad[:3])})",
-                "harnessing/3-audit/pqc-readiness/scripts/pqc_facts.py "
+                "harnessing/2-scan/pqc-readiness/scripts/pqc_facts.py "
                 "--validate-facts <file> per offender; if the "
                 "schema itself changed, sweep the whole corpus before "
                 "consumers (/patch pqc ingest, L2 prepass) trip on it",
@@ -1870,7 +1870,7 @@ def check_pqc_backfeed(ws: Path) -> list[dict]:
     below PQC_BACKFEED_MIN_RATIO of it — the clobber signature. Read-only;
     pending/skip when the graph db or corpus is absent, never crashes."""
     refresh = (
-        "python3 harnessing/3-audit/pqc-readiness/scripts/scan_pqc_dependencies.py "
+        "python3 harnessing/2-scan/pqc-readiness/scripts/scan_pqc_dependencies.py "
         "(re-run the pqc backfeed to re-stamp graph repo nodes)"
     )
     db = _ar(ws) / "graph" / "portfolio-graph.db"

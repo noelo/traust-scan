@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unit tests for harnessing/4-triage/triage/scripts/render_triage.py and harnessing/4-triage/triage/scripts/lint_verdict_citations.py."""
+"""Unit tests for harnessing/3-triage/triage/scripts/render_triage.py and harnessing/3-triage/triage/scripts/lint_verdict_citations.py."""
 
 import unittest
 

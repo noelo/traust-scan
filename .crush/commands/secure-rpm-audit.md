@@ -1,1 +1,0 @@
-../../.claude/commands/secure-rpm-audit.md

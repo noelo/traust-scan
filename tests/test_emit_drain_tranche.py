@@ -1,4 +1,4 @@
-"""Tests for harnessing/2-threat-model/threat-model/scripts/emit_drain_tranche.py."""
+"""Tests for harnessing/1-threat-model/threat-model/scripts/emit_drain_tranche.py."""
 
 import datetime
 import json

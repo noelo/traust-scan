@@ -1,1 +1,0 @@
-../../.claude/commands/check-alignment.md

@@ -3,7 +3,7 @@
 Tests for the refutation-soundness gate (Phase 1 of the scanning-skill
 error-correction plan):
 
-  - harnessing/5-validate/validate-findings/soundness.py — gate conditions:
+  - harnessing/4-validate/validate-findings/soundness.py — gate conditions:
     (a) error-signature transcripts, (b) zero-subject / template RBAC
     probes, (c) target-not-deployed runs (install-failure.yaml)
   - execute.py — step-level gating at dispatch time (+ audit log flag)

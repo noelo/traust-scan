@@ -5,7 +5,7 @@ Retroactive refutation-soundness linter.
 Walks every validation run (a `validation-audit.jsonl` under
 `analysis-results/**/validations/`), re-examines each `refuted` verdict
 with the deterministic soundness gate
-(harnessing/5-validate/validate-findings/soundness.py), and writes a
+(harnessing/4-validate/validate-findings/soundness.py), and writes a
 re-adjudication worklist for every refutation that the gate would have
 blocked:
 

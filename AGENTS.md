@@ -16,7 +16,7 @@ The harness contains 51 active skills, slash commands, JSON schemas, report tool
 
 Every skill lives as a self-contained directory with a `SKILL.md` prompt and optional implementation scripts. This is the single source of truth. The tree has two levels:
 
-- **Workflow skills** sit under their pipeline stage — `harnessing/<N>-<stage>/<name>/`, e.g. `harnessing/4-triage/triage/`. The nine stage directories are ①–⑨ and carry their order in the name.
+- **Workflow skills** sit under their pipeline stage — `harnessing/<N>-<stage>/<name>/`, e.g. `harnessing/3-triage/triage/`. The nine stage directories are ①–⑨ and carry their order in the name.
 - **Everything else** (gates, dashboards, graphs, corpus-QA, quarantined skills) stays at `harnessing/<name>/`, because it is not a stage and filing it under one would make the tree lie.
 
 **Never enumerate skills by globbing `harnessing/*/`.** Go through `skill_dirs()` / `skill_dir(name)` in [`src/traust/paths.py`](src/traust/paths.py), which spans both levels; a one-level glob silently finds only the root-level skills. Likewise, look a skill up by name rather than building `harnessing/<name>` from parts.
@@ -123,13 +123,13 @@ All security testing code and tools in this repository are used for:
 
 When developing security tools:
 - Assume all testing is against authorized targets with explicit permission
-- Implement safety controls (e.g., scope validation via [`harnessing/5-validate/validate-findings/scope.py`](harnessing/5-validate/validate-findings/scope.py) and [`harnessing/5-validate/validate-browser-finding/scripts/scope.py`](harnessing/5-validate/validate-browser-finding/scripts/scope.py))
+- Implement safety controls (e.g., scope validation via [`harnessing/4-validate/validate-findings/scope.py`](harnessing/4-validate/validate-findings/scope.py) and [`harnessing/4-validate/validate-browser-finding/scripts/scope.py`](harnessing/4-validate/validate-browser-finding/scripts/scope.py))
 - Avoid techniques designed solely for detection evasion in production environments
 
 ### Running validate-browser-finding
 
 ```bash
-cd harnessing/5-validate/validate-browser-finding
+cd harnessing/4-validate/validate-browser-finding
 python run.py <validation-dir> [--destructive] [--out <dir>]
 ```
 

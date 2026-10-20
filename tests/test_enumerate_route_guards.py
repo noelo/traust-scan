@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for harnessing/3-audit/secure-code-audit/scripts/enumerate_route_guards.py — the Phase-B2 (D2)
+"""Tests for harnessing/2-scan/secure-code-audit/scripts/enumerate_route_guards.py — the Phase-B2 (D2)
 route×guard matrix enumerator. The asymmetry fixtures mirror the AWX
 miss shape: sibling registrations in one file where some carry the
 guard and some don't (awx-false-negative-analysis, deep-fn plan §1.3)."""

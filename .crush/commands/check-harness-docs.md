@@ -1,1 +1,0 @@
-../../.claude/commands/check-harness-docs.md

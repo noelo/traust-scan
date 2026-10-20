@@ -94,7 +94,7 @@ NC_MARKER_RE = re.compile(r"BY-NC|Non-?Commercial", re.IGNORECASE)
 
 # --- Rule 1b: fingerprints of the removed Wiz-derived PEACH adaptation ----
 # Distinctive substrings from the pre-v0.54.2 tables (git history:
-# harnessing/3-audit/secure-code-audit/SKILL.md before commit d7daa22). Any one of
+# harnessing/2-scan/secure-code-audit/SKILL.md before commit d7daa22). Any one of
 # them reappearing means the old adaptation (or its upstream source) was
 # pasted back in.
 PEACH_FINGERPRINTS = (

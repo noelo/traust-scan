@@ -34,7 +34,7 @@ Feeds (license intake — docs/external-dependencies.md feeds table):
 
 INTERNAL FEEDS ARE EXCLUDED FROM `--feed all`. They must be requested by
 name or with --include-internal. `all` is what unattended lanes invoke
-(harnessing/3-audit/dependency-watch runs this bare on a daily cadence) and
+(harnessing/2-scan/dependency-watch runs this bare on a daily cadence) and
 main() returns 1 when a requested feed is unusable — so a VPN-only feed
 in the default set would fail that lane on every off-VPN run.
 

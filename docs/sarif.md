@@ -6,7 +6,7 @@ tools:
 - **Emitter** — `python3 -m traust.cli reporting sarif` projects a harness
   report into a `.sarif` file for any SARIF consumer (code-scanning
   dashboards, viewers, aggregators).
-- **Importer** — `harnessing/4-triage/triage/scripts/normalize_input.py` turns
+- **Importer** — `harnessing/3-triage/triage/scripts/normalize_input.py` turns
   SARIF from any producer into the findings container `/triage` ingests.
 
 Neither round-trips the other, and neither is a store. The harness report and
@@ -127,9 +127,9 @@ ledger, never from a file that passed through a third-party tool.
 **Commands**
 
 ```bash
-python3 harnessing/4-triage/triage/scripts/normalize_input.py scan.sarif
-python3 harnessing/4-triage/triage/scripts/normalize_input.py scan.sarif --include-suppressed
-python3 harnessing/4-triage/triage/scripts/normalize_input.py a.sarif b.sarif   # one output per input
+python3 harnessing/3-triage/triage/scripts/normalize_input.py scan.sarif
+python3 harnessing/3-triage/triage/scripts/normalize_input.py scan.sarif --include-suppressed
+python3 harnessing/3-triage/triage/scripts/normalize_input.py a.sarif b.sarif   # one output per input
 ```
 
 Stdlib only; no subprocess, no network. The output feeds `/triage` directly;

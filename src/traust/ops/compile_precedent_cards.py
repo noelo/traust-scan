@@ -15,16 +15,16 @@ time**, never shipped as a hint.
 
 Shipped enumerators (schemas hardcoded from the emitting scripts):
 
-config-matrix     harnessing/3-audit/secure-code-audit/scripts/expand_config_matrix.py —
+config-matrix     harnessing/2-scan/secure-code-audit/scripts/expand_config_matrix.py —
 rows = `triples[]`
                 (key, effective_default, source.*, sink.*, class,
                 judgement_required, weak_default)
-route-guards      harnessing/3-audit/secure-code-audit/scripts/enumerate_route_guards.py —
+route-guards      harnessing/2-scan/secure-code-audit/scripts/enumerate_route_guards.py —
 rows = `routes[]`
                 (family, method, pattern, handler.*, guards,
                 scope_guards, registration.*, judgement_required,
                 unguard_markers, asymmetry)
-sanitizer-probes  harnessing/3-audit/secure-code-audit/scripts/probe_sanitizers.py —
+sanitizer-probes  harnessing/2-scan/secure-code-audit/scripts/probe_sanitizers.py —
 rows = `candidates[]`
                 (--list, default) or `probes[]` (--run; EXECUTES repo
                 code — a card must declare

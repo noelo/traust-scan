@@ -1,4 +1,4 @@
-"""Tests for harnessing/3-audit/vuln-scan/scripts/resolve_baseline.py — the /vuln-scan
+"""Tests for harnessing/2-scan/vuln-scan/scripts/resolve_baseline.py — the /vuln-scan
 --diff deterministic baseline resolver. No network: baselines come from
 a fake findings.db in tmp_path and anchors from real tiny git repos
 created with subprocess git init/commit."""

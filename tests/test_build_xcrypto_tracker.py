@@ -1,4 +1,4 @@
-"""Tests for harnessing/3-audit/pqc-readiness/scripts/build_xcrypto_tracker.py."""
+"""Tests for harnessing/2-scan/pqc-readiness/scripts/build_xcrypto_tracker.py."""
 
 import csv
 import json

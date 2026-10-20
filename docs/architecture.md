@@ -146,7 +146,7 @@ ladder: [model-routing.md](model-routing.md). Gate: alignment rule A12.
 
 Findings cross the harness boundary as SARIF 2.1.0, the standard JSON format
 for static-analysis results, in both directions. The **importer**
-(`harnessing/4-triage/triage/scripts/normalize_input.py`) turns SARIF from any
+(`harnessing/3-triage/triage/scripts/normalize_input.py`) turns SARIF from any
 scanner into the findings container `/triage` verifies, so third-party results
 enter the same adversarial pipeline as audit-born ones. The **emitter**
 (python3 -m traust.cli reporting sarif) projects any harness report,
@@ -171,7 +171,7 @@ item that will remove them. The rules are enumerated in the
 
 ## Impact analysis
 
-`harnessing/3-audit/impact-analysis/` plus python3 -m traust.cli impact analyze answer
+`harnessing/2-scan/impact-analysis/` plus python3 -m traust.cli impact analyze answer
 "which repos does this CVE actually affect": a blast-radius query against
 the portfolio graph followed by language-specific affectedness analysis
 (for Go: govulncheck source and binary modes, then an ELF string scan of

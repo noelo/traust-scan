@@ -1,1 +1,0 @@
-../../.claude/commands/sla-view.md

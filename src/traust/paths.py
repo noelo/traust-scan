@@ -46,7 +46,7 @@ def skill_dirs(repo: Path | None = None) -> list[Path]:
     level below ``harnessing/``; the skill-usability reorganization
     (progress-tracker/plans/skill-usability-reorganization-plan.md 1.2)
     nests the 34 workflow skills one level deeper under a stage directory
-    — ``harnessing/4-triage/triage/`` — while the other 24 stay at the
+    — ``harnessing/3-triage/triage/`` — while the other 24 stay at the
     root. So this walks two levels and takes whichever one carries the
     ``SKILL.md``, and the move costs this function nothing.
 

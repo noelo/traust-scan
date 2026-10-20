@@ -79,8 +79,8 @@ class TestNestedLayout(unittest.TestCase):
 
     def _repo(self, tmp: Path) -> Path:
         _skill(tmp, "harnessing/census")  # stays at root
-        _skill(tmp, "harnessing/4-triage/triage")  # nested
-        _skill(tmp, "harnessing/3-audit/vuln-scan")  # nested
+        _skill(tmp, "harnessing/3-triage/triage")  # nested
+        _skill(tmp, "harnessing/2-scan/vuln-scan")  # nested
         return tmp
 
     def test_finds_both_levels(self):
@@ -105,14 +105,14 @@ class TestNestedLayout(unittest.TestCase):
     def test_scripts_resolve_at_either_depth(self):
         with tempfile.TemporaryDirectory() as d:
             repo = self._repo(Path(d))
-            for rel in ("harnessing/census", "harnessing/4-triage/triage"):
+            for rel in ("harnessing/census", "harnessing/3-triage/triage"):
                 (repo / rel / "scripts").mkdir()
                 (repo / rel / "scripts" / "build.py").write_text("# x\n")
             self.assertEqual(
                 [p.relative_to(repo).as_posix() for p in skill_scripts(repo)],
                 [
                     "harnessing/census/scripts/build.py",
-                    "harnessing/4-triage/triage/scripts/build.py",
+                    "harnessing/3-triage/triage/scripts/build.py",
                 ],
             )
 
@@ -128,18 +128,18 @@ class TestGatesAreLayoutAgnostic(unittest.TestCase):
     def test_alignment_reads_a_nested_skill_at_its_real_path(self):
         with tempfile.TemporaryDirectory() as d:
             repo = Path(d)
-            _skill(repo, "harnessing/4-triage/triage", name="wrong-name")
+            _skill(repo, "harnessing/3-triage/triage", name="wrong-name")
             (repo / "docs").mkdir()
             (repo / "scripts").mkdir()
             a6 = [f for f in A.alignment_failures(repo) if f.startswith("A6")]
             self.assertEqual(len(a6), 1, a6)
-            self.assertIn("harnessing/4-triage/triage/SKILL.md", a6[0])
+            self.assertIn("harnessing/3-triage/triage/SKILL.md", a6[0])
 
     def test_skill_count_sees_nested_skills(self):
         with tempfile.TemporaryDirectory() as d:
             repo = Path(d)
             _skill(repo, "harnessing/census")
-            _skill(repo, "harnessing/4-triage/triage")
+            _skill(repo, "harnessing/3-triage/triage")
             (repo / ".claude" / "commands").mkdir(parents=True)
             (repo / "src" / "traust").mkdir(parents=True)
             self.assertEqual(D.expected_counts(repo)["skills"], 2)

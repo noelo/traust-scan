@@ -1,4 +1,4 @@
-"""Tests for harnessing/3-audit/vuln-scan/scripts/build_diff_packet.py."""
+"""Tests for harnessing/2-scan/vuln-scan/scripts/build_diff_packet.py."""
 
 import json
 import subprocess

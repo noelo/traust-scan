@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for harnessing/3-audit/secure-code-audit/scripts/build_coverage_gap_rollup.py — the enumerator-
+"""Tests for harnessing/2-scan/secure-code-audit/scripts/build_coverage_gap_rollup.py — the enumerator-
 expansion backlog aggregator (deep-fn Phase-B prioritization input)."""
 
 import importlib.util

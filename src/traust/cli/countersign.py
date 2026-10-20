@@ -85,7 +85,7 @@ from traust_engine.ledger import (
 )
 
 # --- track-findings import (hardened) --------------------------------------
-# The merge engine lives in harnessing/4-triage/track-findings. Fail LOUDLY when it is
+# The merge engine lives in harnessing/3-triage/track-findings. Fail LOUDLY when it is
 # absent, and never fall through to an ambient sys.path lookup: inserting a
 # non-existent directory would let a same-named module planted in the CWD (or
 # anywhere else on sys.path) silently hijack the recording path.

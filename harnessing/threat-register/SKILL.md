@@ -103,7 +103,7 @@ lens, so registers built from boundary-free portfolios are unchanged:
 - `isolation_boundaries` — the section 10 boundary/interface id(s)
   (`IF-n`) whose `threat_ids` tag the threat;
 - `isolation_review_ref` — the `analysis-results/isolation/<service-slug>/`
-  artifact of the full `/isolation-review`, when one exists.
+  directory of a full isolation review, when one exists.
 
 **Aggregation — which tenant boundaries are weakest.** When any model
 carries boundaries, the JSON gains a `tenant_boundaries` list (and the md
@@ -118,6 +118,6 @@ lives in the linked isolation review, never here.
 
 The register is a projection: regenerate after any batch of
 `/threat-model` runs, reviews, or updates (it is cheap enough to rebuild
-on every consumption). Downstream: `/generate-team-report` and the
+on every consumption). Downstream: the
 executive summary may cite per-product rows; `/threat-model review`
 verdicts change `status` fields, which the next rebuild picks up.

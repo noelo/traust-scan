@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unit tests for harnessing/4-triage/track-findings/scripts/baseline_claims.py and the claim-hash verification
+"""Unit tests for harnessing/3-triage/track-findings/scripts/baseline_claims.py and the claim-hash verification
 in validate_report.cross_validate_layer / build_cumulative.verify_claim_hashes."""
 
 import copy

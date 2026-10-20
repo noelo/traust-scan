@@ -63,7 +63,7 @@ def test_opengrep_bare_fork_url_gets_documented_pin(tmp_path, monkeypatch):
 
 def test_pick_slug_rejects_traversal(tmp_path):
     """B3: slug becomes an output dir under pqc/."""
-    bp = _load("bulk_prescan_p1", "harnessing/3-audit/pqc-readiness/scripts/bulk_prescan.py")
+    bp = _load("bulk_prescan_p1", "harnessing/2-scan/pqc-readiness/scripts/bulk_prescan.py")
     pqc = tmp_path / "pqc"
     pqc.mkdir()
     assert bp.pick_slug("https://github.com/org/..", pqc) is None
@@ -96,7 +96,7 @@ def test_symbol_index_cache_is_per_user(tmp_path, monkeypatch):
 
 def test_fetch_advisory_rejects_bad_cve():
     """D7: the scoped fetcher validates identifiers."""
-    fa = _load("fetch_advisory_p1", "harnessing/3-audit/impact-analysis/scripts/fetch_advisory.py")
+    fa = _load("fetch_advisory_p1", "harnessing/2-scan/impact-analysis/scripts/fetch_advisory.py")
     with pytest.raises(SystemExit):
         fa.main(["nvd", "not-a-cve"])
     with pytest.raises(SystemExit):

@@ -1,4 +1,4 @@
-"""Tests for harnessing/3-audit/dependency-watch/scripts/verify_dep_provenance.py — subdir-aware auto-
+"""Tests for harnessing/2-scan/dependency-watch/scripts/verify_dep_provenance.py — subdir-aware auto-
 verification of dependency findings against their source manifests.
 
 NO network: every fetch is an injected fake `fetch=`. The load-bearing case

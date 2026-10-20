@@ -3,7 +3,7 @@
 **Audience.** Anyone trying to understand how the harness remembers what
 it believes. This document explains the *why* behind the disposition
 ledger — the reasoning that produced the design — rather than operating
-instructions ([track-findings SKILL.md](../harnessing/4-triage/track-findings/SKILL.md));
+instructions ([track-findings SKILL.md](../harnessing/3-triage/track-findings/SKILL.md));
 the triage-to-ledger wiring is §6b.
 For the full pipeline picture, start with
 [artifacts.md](artifacts.md).
@@ -151,7 +151,7 @@ Three things that are deliberately *not* ledgers:
 
 Ledgers are created **lazily** — a repo gets its layer on its first
 `track-findings` run — or in bulk:
-`python3 harnessing/4-triage/track-findings/scripts/baseline_claims.py sweep analysis-results/findings`
+`python3 harnessing/3-triage/track-findings/scripts/baseline_claims.py sweep analysis-results/findings`
 creates a minimal layer (and pins all claim hashes) for every canonical
 audit report that lacks one, so baselines are tamper-evident *before*
 any triage feedback arrives.
@@ -321,7 +321,7 @@ six stacked controls:
    all: the verdict is downgraded to `inconclusive` with a
    machine-readable `soundness_flag`, and the emitter queues an
    `unsound_refutation` needs_review item instead
-   (`harnessing/5-validate/validate-findings/SKILL.md`,
+   (`harnessing/4-validate/validate-findings/SKILL.md`,
    python3 -m traust.cli ledger emit-validation; legacy reports are
    linted retroactively by python3 -m traust.ops.lint_refutation_soundness). A
    probe that never soundly tested the claim proves nothing either way.
@@ -402,7 +402,7 @@ python3 -m traust.cli admin countersign provides the human inbox over it:
   (`LEDGER_DIRECTORY_COMMAND`, see the ledger's service-identity doc),
   applied on every write path; it is not part of the identity proof. Mechanism and
   variables: the identity-verification section of
-  [countersign SKILL.md](../harnessing/4-triage/countersign/SKILL.md). A blank
+  [countersign SKILL.md](../harnessing/3-triage/countersign/SKILL.md). A blank
   rationale on a countersign adopts the machine rationale *explicitly
   framed as the signer's adopted determination*, rejecting a refutation
   (`keep_open` → human `confirmed`) requires the reviewer's own words,
@@ -593,7 +593,7 @@ edit to a finding's description or severity would flow silently into the
 derived cumulative report rather than conflict with it.
 
 `metadata.claim_hashes` in the layer closes that gap. At every
-track-findings run, `harnessing/4-triage/track-findings/scripts/baseline_claims.py record` pins a sha256 of
+track-findings run, `harnessing/3-triage/track-findings/scripts/baseline_claims.py record` pins a sha256 of
 each finding's **canonical claim fields** — id, title, severity, cwes,
 locations, description, remediation — from the **`*-security-audit.json`**
 (the JSON is the original; the `.md` is a rendering of it and is not
@@ -816,7 +816,7 @@ touchpoint — lives in the `## Integrations` section of
 
 | Topic | Where |
 |---|---|
-| Operating the ledger (ingest sources, tiers, interactive countersign) | `harnessing/4-triage/track-findings/SKILL.md` |
+| Operating the ledger (ingest sources, tiers, interactive countersign) | `harnessing/3-triage/track-findings/SKILL.md` |
 | Querying the corpus via the SQLite projection (`findings.db`) | `harnessing/findings-db/SKILL.md` |
 | Countersign workbench (decision cards, apply/record) | python3 -m traust.cli admin countersign (§6a) |
 | Triage → ledger wiring (verdict → event mapping, emitter) | §6b; `src/traust/cli/emit_triage_ledger_events.py` |

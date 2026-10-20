@@ -18,7 +18,7 @@
 #   - traust.registry.feeds_config — the loader; every other
 #     consumer goes through it rather than parsing this file directly.
 #   - traust.cli.fetch_feeds — refreshes `tier: cached`.
-#   - harnessing/3-audit/impact-analysis/scripts/fetch_advisory.py — resolves
+#   - harnessing/2-scan/impact-analysis/scripts/fetch_advisory.py — resolves
 #     `tier: live` sources; its `source` argument is generated from the
 #     ids here, so a new live source needs no code change.
 #   - traust.cli.check_drift — `feeds:*` rows from the cached
@@ -57,7 +57,7 @@ sources:
     max_age_hours: 24
     cadence: daily
     consumers:
-      - harnessing/3-audit/secure-code-audit/scripts/enrich_findings_cves.py
+      - harnessing/2-scan/secure-code-audit/scripts/enrich_findings_cves.py
     license:
       id: free-commercial-with-attribution
       terms: Free to the public including commercial products; "appropriate attribution" requested.
@@ -77,7 +77,7 @@ sources:
     max_age_hours: 24
     cadence: daily
     consumers:
-      - harnessing/3-audit/secure-code-audit/scripts/enrich_findings_cves.py
+      - harnessing/2-scan/secure-code-audit/scripts/enrich_findings_cves.py
     license:
       id: CC0-1.0
       terms: >-
@@ -147,8 +147,8 @@ sources:
       ident: CVE-2021-44228
       expect_status: 200
     consumers:
-      - harnessing/3-audit/impact-analysis/scripts/fetch_advisory.py
-      - harnessing/4-triage/triage
+      - harnessing/2-scan/impact-analysis/scripts/fetch_advisory.py
+      - harnessing/3-triage/triage
     license:
       id: CC-BY-4.0
       terms: Attribute Red Hat when redistributing. Public endpoint, no VPN.
@@ -170,9 +170,9 @@ sources:
       ecosystem: npm
       expect_status: 200
     consumers:
-      - harnessing/3-audit/dependency-watch/scripts/fleet_sweep.py
-      - harnessing/3-audit/impact-analysis/scripts/fetch_advisory.py
-      - harnessing/3-audit/secure-code-audit/scripts/run_fork_advisory_lag.py
+      - harnessing/2-scan/dependency-watch/scripts/fleet_sweep.py
+      - harnessing/2-scan/impact-analysis/scripts/fetch_advisory.py
+      - harnessing/2-scan/secure-code-audit/scripts/run_fork_advisory_lag.py
       - traust.cli.resolve_advisory_symbols
       - traust.ops.cve_replay_monitor
     license:
@@ -195,7 +195,7 @@ sources:
     # upgrade, never a correctness requirement.
     api_key_env: NVD_API_KEY
     consumers:
-      - harnessing/3-audit/impact-analysis/scripts/fetch_advisory.py
+      - harnessing/2-scan/impact-analysis/scripts/fetch_advisory.py
     license:
       id: public-domain-with-attribution-request
       terms: >-
@@ -216,8 +216,8 @@ sources:
       ident: RHSA-2024:6493
       expect_status: 200
     consumers:
-      - harnessing/3-audit/secure-rpm-audit
-      - harnessing/3-audit/secure-container-audit
+      - harnessing/2-scan/secure-rpm-audit
+      - harnessing/2-scan/secure-container-audit
     license:
       id: CC-BY-4.0
       terms: Attribute Red Hat when redistributing.
@@ -233,8 +233,8 @@ sources:
       ident: github.com/kubernetes/kubernetes
       expect_status: 200
     consumers:
-      - harnessing/3-audit/secure-code-audit
-      - harnessing/3-audit/secure-rpm-audit
+      - harnessing/2-scan/secure-code-audit
+      - harnessing/2-scan/secure-rpm-audit
     license:
       id: CDLA-Permissive-2.0
       terms: CDLA-Permissive-2.0 for the data; Apache-2.0 for the code. Essentially no downstream obligations.

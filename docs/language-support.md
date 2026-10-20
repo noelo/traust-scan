@@ -15,9 +15,9 @@ matters more than any single table cell:
 
 Each cell names the tool that provides the capability, so the table can be
 checked against the tree: the rule pack under
-`harnessing/3-audit/secure-code-audit/opengrep-rules/`, the analyzers in
+`harnessing/2-scan/secure-code-audit/opengrep-rules/`, the analyzers in
 `traust_engine.impact`, the fuzz templates under
-`harnessing/6-fuzz/create-fuzzing/harnesses/_templates/`, and the tool rows in
+`harnessing/5-fuzz/create-fuzzing/harnesses/_templates/`, and the tool rows in
 [external-dependencies.md](external-dependencies.md).
 
 ## Capability matrix

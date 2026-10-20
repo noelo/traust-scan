@@ -1,4 +1,4 @@
-"""Tests for harnessing/3-audit/dependency-watch/scripts/fleet_sweep.py — the
+"""Tests for harnessing/2-scan/dependency-watch/scripts/fleet_sweep.py — the
 multi-ecosystem OSV fleet sweep.
 
 Loaded via importlib (it lives under harnessing/, not scripts/). NO

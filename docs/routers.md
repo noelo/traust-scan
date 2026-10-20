@@ -34,9 +34,9 @@ work, and none of them authors a finding:
 |---|---|---|
 | `emit_drain_tranche.py` | this week's tranche from the router's drain ordering | [continuous-operations.md](continuous-operations.md) |
 | `build_verify_sweep.py` | the `/verify-remediation` full-sweep worklist | `harnessing/8-verify/verify-remediation/SKILL.md` |
-| `build_pqc_worklist.py` | one entry per unique repo URL for the PQC sweep | `harnessing/3-audit/pqc-readiness/SKILL.md` |
-| `fleet_sweep.py` | `/dependency-watch`'s bootstrap / full-baseline OSV sweep | `harnessing/3-audit/dependency-watch/SKILL.md` |
-| `run_impact_sweep.py` | executes a fleet-OSV worklist | `harnessing/3-audit/impact-analysis/SKILL.md` |
+| `build_pqc_worklist.py` | one entry per unique repo URL for the PQC sweep | `harnessing/2-scan/pqc-readiness/SKILL.md` |
+| `fleet_sweep.py` | `/dependency-watch`'s bootstrap / full-baseline OSV sweep | `harnessing/2-scan/dependency-watch/SKILL.md` |
+| `run_impact_sweep.py` | executes a fleet-OSV worklist | `harnessing/2-scan/impact-analysis/SKILL.md` |
 
 ---
 

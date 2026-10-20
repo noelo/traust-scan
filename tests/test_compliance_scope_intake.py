@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for harnessing/3-audit/compliance-check/scripts/compliance_scope_intake.py — the validated (and
+"""Tests for harnessing/2-scan/compliance-check/scripts/compliance_scope_intake.py — the validated (and
 only) interview write path into the compliance scope registry
 (Phase 7)."""
 

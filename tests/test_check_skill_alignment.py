@@ -417,18 +417,18 @@ class TestStageDepthExemptionMatching(unittest.TestCase):
         # A14 harnessing/threat-model/SKILL.md is a real reviewed key;
         # the skill nests under 2-threat-model after the stage restructure.
         used: list = []
-        self.assertTrue(A._exempt("A14", "harnessing/2-threat-model/threat-model/SKILL.md", used))
+        self.assertTrue(A._exempt("A14", "harnessing/1-threat-model/threat-model/SKILL.md", used))
         self.assertTrue(used, "the hit must be recorded for the used-check")
 
     def test_flat_key_still_matches_flat_path(self):
         self.assertTrue(A._exempt("A14", "harnessing/threat-model/SKILL.md", []))
 
     def test_unrelated_path_is_not_exempted(self):
-        self.assertFalse(A._exempt("A14", "harnessing/5-validate/not-a-real-skill/SKILL.md", []))
+        self.assertFalse(A._exempt("A14", "harnessing/4-validate/not-a-real-skill/SKILL.md", []))
 
     def test_unstaged_strips_only_the_stage_segment(self):
         self.assertEqual(
-            A._unstaged("harnessing/4-triage/triage/SKILL.md"), "harnessing/triage/SKILL.md"
+            A._unstaged("harnessing/3-triage/triage/SKILL.md"), "harnessing/triage/SKILL.md"
         )
         self.assertEqual(A._unstaged("harnessing/triage/SKILL.md"), "harnessing/triage/SKILL.md")
         self.assertEqual(A._unstaged("docs/skills.md"), "docs/skills.md")

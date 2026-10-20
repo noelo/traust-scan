@@ -332,17 +332,17 @@ class TestStageDepthExemptionMatching:
 
     def test_flat_key_matches_nested_path(self):
         used: list = []
-        assert css._exempt("S6", "harnessing/5-validate/fixture-skill/run_one.sh", used) is True
+        assert css._exempt("S6", "harnessing/4-validate/fixture-skill/run_one.sh", used) is True
         assert used, "an exemption hit must be recorded for the used-check"
 
     def test_flat_key_still_matches_flat_path(self):
         assert css._exempt("S6", "harnessing/fixture-skill/run_one.sh", []) is True
 
     def test_unrelated_path_is_not_exempted(self):
-        assert css._exempt("S6", "harnessing/5-validate/some-other-skill/run_one.sh", []) is False
+        assert css._exempt("S6", "harnessing/4-validate/some-other-skill/run_one.sh", []) is False
 
     def test_unstaged_strips_only_the_stage_segment(self):
-        assert css._unstaged("harnessing/4-triage/triage/SKILL.md") == "harnessing/triage/SKILL.md"
+        assert css._unstaged("harnessing/3-triage/triage/SKILL.md") == "harnessing/triage/SKILL.md"
         # a non-stage directory name is left alone
         assert css._unstaged("harnessing/triage/SKILL.md") == "harnessing/triage/SKILL.md"
         # paths outside harnessing/ are untouched

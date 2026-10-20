@@ -1,4 +1,4 @@
-"""Tests for harnessing/3-audit/secure-code-audit/scripts/run_fork_advisory_lag.py — fork advisory-lag pre-scan."""
+"""Tests for harnessing/2-scan/secure-code-audit/scripts/run_fork_advisory_lag.py — fork advisory-lag pre-scan."""
 
 import importlib.util
 import json

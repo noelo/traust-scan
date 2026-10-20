@@ -5,7 +5,7 @@ The reference for the validate* lanes (`/validate-findings`,
 enters the disposition ledger. The doctrine behind the gates is
 [error-model.md](error-model.md) (machines confirm, humans dismiss); the
 lane procedure is the
-[validate-findings skill](../harnessing/5-validate/validate-findings/SKILL.md);
+[validate-findings skill](../harnessing/4-validate/validate-findings/SKILL.md);
 how the resulting events are weighed and countersigned is
 [disposition-ledger.md](disposition-ledger.md) §5–§6.
 
@@ -96,13 +96,13 @@ the proposal rationale. Downgrades are as valuable as upgrades.
 - **Fuzzing as the offline execution-evidence lane** (a reproducing
   crash is E0 by construction; the refuted register feeds target
   selection; build plus deterministic reproduction is its environment
-  gate): the [create-fuzzing skill](../harnessing/6-fuzz/create-fuzzing/SKILL.md).
+  gate): the [create-fuzzing skill](../harnessing/5-fuzz/create-fuzzing/SKILL.md).
 - **Credential-liveness probing** (one read-only introspection call,
   scope-gated to a `credential_probes.classes` entry and the single verb
   `introspect`): the validate-findings skill, section
   "Credential-liveness verification".
 - **The benchmark** (vulnerable/safe-twin fixture pairs under
-  `harnessing/5-validate/validate-findings/benchmark/`; confirm-recall
+  `harnessing/4-validate/validate-findings/benchmark/`; confirm-recall
   and refute-precision floors; severity within ±1.0 of the planted
   vector): the validate-findings skill, section "Benchmark mode", run by
   python3 -m traust.cli sweep benchmark. Its `check-trigger`

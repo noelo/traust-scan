@@ -131,7 +131,7 @@ EXEMPTIONS: dict[tuple[str, str], str] = {
     # --- S3 git-transport: the P0 fix list; MUST empty when P0 lands ---
     (
         "S3",
-        "harnessing/3-audit/pqc-readiness/scripts/bulk_prescan.py",
+        "harnessing/2-scan/pqc-readiness/scripts/bulk_prescan.py",
     ): "reviewed — https-scheme gate at call site (startswith check) prevents non-https;"
     " url originates from the harness corpus registry",
     # --- S4: guidance strings, not execution ---
@@ -164,7 +164,7 @@ EXEMPTIONS: dict[tuple[str, str], str] = {
     # --- S5 token-argv ---
     (
         "S5",
-        "harnessing/5-validate/validate-findings/novel.py",
+        "harnessing/4-validate/validate-findings/novel.py",
     ): "reviewed — Authorization header is in a cmd_template string (recon step"
     " template executed inside the target pod via kubectl exec, not on the harness host)",
     # --- S10 target-build sandbox: grandfathered pending the WS1 skill

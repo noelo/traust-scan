@@ -1,4 +1,4 @@
-"""Tests for harnessing/3-audit/pqc-readiness/scripts/scan_xcrypto_usage.py."""
+"""Tests for harnessing/2-scan/pqc-readiness/scripts/scan_xcrypto_usage.py."""
 
 import json
 import subprocess

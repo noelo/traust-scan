@@ -316,7 +316,7 @@ def build_events(
     Returns {per_audit: {audit_path: {events, needs_review, register}},
              skipped: [...], counts: {...}}.
 
-    Soundness gate (harnessing/5-validate/validate-findings/soundness.py): a
+    Soundness gate (harnessing/4-validate/validate-findings/soundness.py): a
     `refuted` verdict that rests on an unsound probe — error-signature
     transcript, zero-subject RBAC probe, or a target-not-deployed run
     (`install_failure=True`) — NEVER becomes a false_positive event or a

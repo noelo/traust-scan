@@ -124,7 +124,7 @@ MD = """# repo — PQC Readiness
 ### Fix now (these actively block PQC)
 - `conf/tls.conf:12` — explicit curve list pins classical groups
   Action: remove the pin so hybrid groups negotiate
-  Playbook: harnessing/3-audit/pqc-readiness/remediation/config-blockers
+  Playbook: harnessing/2-scan/pqc-readiness/remediation/config-blockers
 
 ### Upgrade (version bumps that enable PQC automatically)
 - `go.mod:3` — Go 1.22 lacks X25519MLKEM768
@@ -249,7 +249,7 @@ class TestMdRefresh:
                     "action": "Migrate off RSA-2048",
                     "remediation_effort": "moderate",
                     "locations": ["pkg/keys/rsa.go:40"],
-                    "recipe": "harnessing/3-audit/pqc-readiness/remediation/digital-signatures",
+                    "recipe": "harnessing/2-scan/pqc-readiness/remediation/digital-signatures",
                 }
             ]
         )

@@ -1,1 +1,0 @@
-../../.claude/commands/financial-tracking.md

@@ -1,4 +1,4 @@
-"""Tests for harnessing/2-threat-model/threat-model/scripts/build_release_events.py — the release/dist-git
+"""Tests for harnessing/1-threat-model/threat-model/scripts/build_release_events.py — the release/dist-git
 event feeders. No network: git ls-remote is monkeypatched throughout;
 the container leg is pure CSV diffing by design (v1 has no registry
 polling)."""

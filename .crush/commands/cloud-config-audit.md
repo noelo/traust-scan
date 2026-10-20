@@ -1,1 +1,0 @@
-../../.claude/commands/cloud-config-audit.md

@@ -1,6 +1,11 @@
-# Traust
+# Traust Scan
 
-[![skillsaw grade](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fopenshift%2Ftraust%2Fmain%2F.skillsaw-badge.json)](https://skillsaw.org/)
+A code-scanning-only fork of [traust](https://github.com/openshift/traust) — the 9-stage
+security harness reduced to the source-code scan path: **threat model → scan → triage →
+validate → fuzz**. The Red Hat portfolio machinery (inventory/corpus intake, container/RPM/
+cloud-config/compliance audit arms, fleet dashboards, remediation at scale) is removed;
+every disposition still records to the signed ledger, which is now optional. `upstream`
+points at the original repo for syncing.
 
 Traust is a workflow engine for the automated, multi-framework security assessment of software portfolios, including; source repositories, container images, RPM packages, Kubernetes operators, infrastructure-as-code and the services built from them. This repository holds the skills, slash commands, schemas and prompt engineering that let an AI coding agent run consistent, repeatable audits, then triage and validate what it finds. It records every disposition in a signed ledger, and drives remediation at scale rather than one review at a time. Traust was developed by Red Hat's Hybrid Platforms team and is published under Apache License 2.0.
 
@@ -54,26 +59,22 @@ checks the install. Nothing runs without it — see [docs/setup.md](docs/setup.m
 
 **New here?** Start with [docs/getting-started.md](docs/getting-started.md) — zero to first audit report. What you need to run it (platform, agent/model tier, tools, network access) is in [docs/requirements.md](docs/requirements.md).
 
-This harness is primarily used as an end-to-end workflow to index, scan, validate, and remediate all repositories across an organization.  That workflow looks roughly like this:
+This harness fork runs a 5-stage code-scanning workflow: threat model, scan, triage, validate, fuzz — for any git repository, no inventory required.
 ```
-  Inputs ─▶ ① Inventory ─▶ ② Threat model ─▶ ③ Audit ─▶ ④ Triage ─┬─▶ ⑧ Package ─▶ ⑨ Assign ─▶ Share/Notify ─▶ File defects
- (inputs)                                    (analysis-results)    │   (progress-tracker → Drive, Slack, Jira)
-                                                                   ├─▶ ⑤ Live validation  (validate-* / deploy-operator)
-                                                                   ├─▶ ⑥ Fuzzing          (create-fuzzing)
-                                                                   └─▶ ⑦ Remediation      (remediate-finding / patch / verify)
+  <github-url> ─▶ ① Threat model ─▶ ② Scan ─▶ ③ Triage ─┬─▶ ④ Live validation  (validate-*)
+ (any repo)                       (vuln-scan,           │
+                                   secure-code-audit,   └─▶ ⑤ Fuzzing          (create-fuzzing)
+                                   security-audit-phased)
 
-  Stages ③–⑦ feed the append-only disposition ledger (track-findings), gated by human countersign;
-  follow-up scans (vuln-scan, verify-remediation regressions, dependency-watch) enter it directly.
-  Dashboards (exec summary, trends, LoC, census …) render under progress-tracker/metrics/dashboards/.
-
-  Standing loop (daily, after the first pass — docs/continuous-operations.md):
-  fleet refresh ─▶ router ─▶ lanes: diff-scan │ deps (/dependency-watch) │ IaC │ verify treadmill │ rule mining (/mine-ledger)
-                              └─ findings re-enter ④ Triage / the ledger; dashboards & drift-watch rebuild on cadence
+  Stages ②–④ feed the append-only disposition ledger (track-findings), gated by human countersign;
+  follow-up scans (vuln-scan) enter it directly.
+  Fix verification and remediation are OUT OF SCOPE in this fork: track-findings holds a
+  finding at fix_in_progress and never resolved on commit evidence alone.
 ```
 
 Portions of the harness can be executed independently and locally. Both workflows, and the skills each one uses, are described in [docs/standalone-usage.md](docs/standalone-usage.md) and [docs/campaign-workflow.md](docs/campaign-workflow.md).
 
-Findings interchange is standards-based, in both directions: `/triage` imports **SARIF 2.1.0** from any scanner (`harnessing/4-triage/triage/scripts/normalize_input.py`, which also takes Dependabot alert exports and native govulncheck streams), and every report exports to SARIF for the adopter's own dashboard or viewer (python3 -m traust.cli reporting sarif). See [docs/sarif.md](docs/sarif.md).
+Findings interchange is standards-based, in both directions: `/triage` imports **SARIF 2.1.0** from any scanner (`harnessing/3-triage/triage/scripts/normalize_input.py`, which also takes Dependabot alert exports and native govulncheck streams), and every report exports to SARIF for the adopter's own dashboard or viewer (python3 -m traust.cli reporting sarif). See [docs/sarif.md](docs/sarif.md).
 
 Note: if you just want an index of all skills in this repository, ask your agent or see [docs/skills.md](docs/skills.md).
 
@@ -96,14 +97,14 @@ Two ways to run the engine, each with its own guide:
 | [docs/tooling-and-structure-files.md](docs/tooling-and-structure-files.md) | **Tooling and structure files** — every schema from `traust-contracts`, the packaged CLIs and key scripts, and what each is for |
 | [docs/language-support.md](docs/language-support.md) | **Language support matrix** — the language-agnostic agentic core vs per-language deterministic depth (rule packs, CVE reachability engines and their soundness, fuzzers, manifests, crypto census), current gaps, and the pattern for adding a language |
 | [docs/external-dependencies.md](docs/external-dependencies.md) | **Every external requirement** — CLI tools, Python libraries, MCP servers, data feeds, and framework content licenses, each with verified license + citation, plus the commercialization risk assessment (CIS flagged; PEACH resolved by the v0.54.2 original-text rewrite) |
-| [docs/skills.md](docs/skills.md) | Detailed reference for all 51 skills |
+| [docs/skills.md](docs/skills.md) | Detailed reference for all 11 skills |
 | [docs/validation-process.md](docs/validation-process.md) | **How live validation reaches a trustworthy verdict** — the three-purpose mission, the fail-closed gate stack (attestation → positive controls → differential probing → soundness → ledger discipline), and artifact flow |
 | [docs/model-routing.md](docs/model-routing.md) | **Model routing** — the model registry, tier classes and role floors, the A12 no-hardcoded-model rule, escalation stamping, the spend-declaration command |
 | [docs/components.md](docs/components.md) | **The five-component stack** — what `traust-engine` / `traust-ledger` / `traust-contracts` / `traust-sdk` each own, which repo to change for a given fix, git-tag pinning and its "conflicting URLs" failure mode, and the bottom-up release order |
 | [docs/architecture.md](docs/architecture.md) | Code internals — pipeline flow, adapter system, data model |
 | [docs/artifacts.md](docs/artifacts.md) | Artifacts — what each stage produces, which skills consume it, where it lands, and the one-way projections (Markdown, findings.db, SARIF, GitLab) |
 | [docs/sarif.md](docs/sarif.md) | **SARIF emitter and importer** — how a harness report projects to SARIF 2.1.0 (field mapping, suppressions, fingerprints, degraded-run signal, batch sweep) and how third-party SARIF is normalised into triage claims |
-| [docs/continuous-operations.md](docs/continuous-operations.md) | **The standing rescan loop** — the daily router (python3 -m traust.cli.build_rescan_worklist), lane cadences, the arrival-channel coverage model with measured residuals, event injection via `rescan-events.jsonl`, the advisory budget guard, and the **weekly-drain orchestrator contract** (harnessing/2-threat-model/threat-model/scripts/emit_drain_tranche.py + one headless diff scan per tranche row) |
+| [docs/continuous-operations.md](docs/continuous-operations.md) | **The standing rescan loop** — the daily router (python3 -m traust.cli.build_rescan_worklist), lane cadences, the arrival-channel coverage model with measured residuals, event injection via `rescan-events.jsonl`, the advisory budget guard, and the **weekly-drain orchestrator contract** (harnessing/1-threat-model/threat-model/scripts/emit_drain_tranche.py + one headless diff scan per tranche row) |
 | [docs/continuous-scanning.md](docs/continuous-scanning.md) | Redirect stub — renamed to `continuous-operations.md` on 2026-08-17 (it carries cost routing, spend cadence and credentials, not only scanning); kept so external links resolve |
 | [docs/error-model.md](docs/error-model.md) | **Type I & Type II error handling** — where false positives and false negatives enter, the asymmetric-caution doctrine (machines confirm, humans dismiss), the measured error rates behind each control, self-measurement mechanisms, the improvement loop (how measured misses become the next rules/enumerators — coverage-gap rollup, rule-candidate capture), and the residual risks a consumer should know |
 | [docs/disposition-ledger.md](docs/disposition-ledger.md) | **The ledger, from first principles** — why it is append-only and event-sourced, the two disposition axes, evidence-class precedence, the five-layer false-positive discipline, replay/assurance views, and a worked finding timeline |

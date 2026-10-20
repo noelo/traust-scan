@@ -124,7 +124,7 @@ def test_emit_report_path_containment(tmp_path, monkeypatch):
 
 
 def test_credential_liveness_commit_hex_gate():
-    src = (_ROOT / "harnessing/5-validate/validate-findings/credential_liveness.py").read_text()
+    src = (_ROOT / "harnessing/4-validate/validate-findings/credential_liveness.py").read_text()
     # both git-show sites must be behind the hex fullmatch
     assert src.count('r"[0-9a-f]{7,40}"') >= 2
 

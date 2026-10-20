@@ -116,8 +116,8 @@ Build and maintain a threat model for a target codebase. Six modes: "interview" 
 - **Stage:** ② Threat model
 - **Tier:** `primary`
 - **Invoke:** `/threat-model` — arguments: `[bootstrap-then-interview|bootstrap|interview|review|update|pr] <target-dir> [--vulns <file>] [--design-doc <file>] [--context <paths>] [--seed <model-file>] [--base <ref>] [--auto|--apply] [--fresh]`
-- **Skill:** [harnessing/2-threat-model/threat-model/SKILL.md](../harnessing/2-threat-model/threat-model/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/2-threat-model/threat-model/SKILL.md#integrations)
+- **Skill:** [harnessing/1-threat-model/threat-model/SKILL.md](../harnessing/1-threat-model/threat-model/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/1-threat-model/threat-model/SKILL.md#integrations)
 
 ## cloud-config-audit
 
@@ -126,7 +126,7 @@ Use when the user asks to audit or harden the cloud configuration declared in an
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/cloud-config-audit`
-- **Skill:** [harnessing/3-audit/cloud-config-audit/SKILL.md](../harnessing/3-audit/cloud-config-audit/SKILL.md)
+- **Skill:** [harnessing/2-scan/cloud-config-audit/SKILL.md](../harnessing/2-scan/cloud-config-audit/SKILL.md)
 
 ## compliance-check
 
@@ -135,7 +135,7 @@ Use when the user asks to assess compliance of a product or deployed cloud envir
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/compliance-check`
-- **Skill:** [harnessing/3-audit/compliance-check/SKILL.md](../harnessing/3-audit/compliance-check/SKILL.md)
+- **Skill:** [harnessing/2-scan/compliance-check/SKILL.md](../harnessing/2-scan/compliance-check/SKILL.md)
 
 ## crypto-analysis
 
@@ -144,7 +144,7 @@ Use when you need to understand a crypto decision point — probe what crypto is
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/crypto-analysis`
-- **Skill:** [harnessing/3-audit/crypto-analysis/SKILL.md](../harnessing/3-audit/crypto-analysis/SKILL.md)
+- **Skill:** [harnessing/2-scan/crypto-analysis/SKILL.md](../harnessing/2-scan/crypto-analysis/SKILL.md)
 
 ## dependency-watch
 
@@ -153,8 +153,8 @@ Use on the daily continuous-operations cadence, or when the user asks to "check 
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/dependency-watch` — arguments: `[CVE-ID | --since <date>] [--include-likely] [--dry-run]`
-- **Skill:** [harnessing/3-audit/dependency-watch/SKILL.md](../harnessing/3-audit/dependency-watch/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/3-audit/dependency-watch/SKILL.md#integrations)
+- **Skill:** [harnessing/2-scan/dependency-watch/SKILL.md](../harnessing/2-scan/dependency-watch/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/2-scan/dependency-watch/SKILL.md#integrations)
 
 ## impact-analysis
 
@@ -163,7 +163,7 @@ Use when determining which portfolio repositories are affected by an advisory (C
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/impact-analysis` — arguments: `<advisory-id> --module <mod> [--ecosystem go|npm|pypi|maven|cargo|ruby|nuget|actions|docker|helm] [--packages <p1,p2>] [--vulnerable-range '<v'] [--fixed-version v1.0.1] [--feature-desc '...'] [--skip-scan] [--jobs N]`
-- **Skill:** [harnessing/3-audit/impact-analysis/SKILL.md](../harnessing/3-audit/impact-analysis/SKILL.md)
+- **Skill:** [harnessing/2-scan/impact-analysis/SKILL.md](../harnessing/2-scan/impact-analysis/SKILL.md)
 
 ## isolation-review
 
@@ -172,8 +172,8 @@ Use when the user asks to review, assess, or score the tenant isolation of a mul
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/isolation-review`
-- **Skill:** [harnessing/3-audit/isolation-review/SKILL.md](../harnessing/3-audit/isolation-review/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/3-audit/isolation-review/SKILL.md#integrations)
+- **Skill:** [harnessing/2-scan/isolation-review/SKILL.md](../harnessing/2-scan/isolation-review/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/2-scan/isolation-review/SKILL.md#integrations)
 
 ## operator-priv-profile
 
@@ -182,8 +182,8 @@ Use when the user asks whether an operator runs with least privilege, what SCCs/
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/operator-priv-profile`
-- **Skill:** [harnessing/3-audit/operator-priv-profile/SKILL.md](../harnessing/3-audit/operator-priv-profile/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/3-audit/operator-priv-profile/SKILL.md#integrations)
+- **Skill:** [harnessing/2-scan/operator-priv-profile/SKILL.md](../harnessing/2-scan/operator-priv-profile/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/2-scan/operator-priv-profile/SKILL.md#integrations)
 
 ## pqc-readiness
 
@@ -192,8 +192,8 @@ Assess a repository's post-quantum TLS readiness. Use when asked whether a repo 
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/pqc-readiness` — arguments: `<repo-dir-or-url> [--from-facts PATH]`
-- **Skill:** [harnessing/3-audit/pqc-readiness/SKILL.md](../harnessing/3-audit/pqc-readiness/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/3-audit/pqc-readiness/SKILL.md#integrations)
+- **Skill:** [harnessing/2-scan/pqc-readiness/SKILL.md](../harnessing/2-scan/pqc-readiness/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/2-scan/pqc-readiness/SKILL.md#integrations)
 
 ## secure-code-audit
 
@@ -202,8 +202,8 @@ Use when the user asks to perform a security audit, security review, vulnerabili
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/secure-code-audit`
-- **Skill:** [harnessing/3-audit/secure-code-audit/SKILL.md](../harnessing/3-audit/secure-code-audit/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/3-audit/secure-code-audit/SKILL.md#integrations)
+- **Skill:** [harnessing/2-scan/secure-code-audit/SKILL.md](../harnessing/2-scan/secure-code-audit/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/2-scan/secure-code-audit/SKILL.md#integrations)
 
 ## secure-container-audit
 
@@ -212,7 +212,7 @@ Use when the user asks to perform a security audit, vulnerability scan, SBOM ana
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/secure-container-audit`
-- **Skill:** [harnessing/3-audit/secure-container-audit/SKILL.md](../harnessing/3-audit/secure-container-audit/SKILL.md)
+- **Skill:** [harnessing/2-scan/secure-container-audit/SKILL.md](../harnessing/2-scan/secure-container-audit/SKILL.md)
 
 ## secure-rpm-audit
 
@@ -221,7 +221,7 @@ Use when the user asks to perform a security audit, security review, or vulnerab
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/secure-rpm-audit`
-- **Skill:** [harnessing/3-audit/secure-rpm-audit/SKILL.md](../harnessing/3-audit/secure-rpm-audit/SKILL.md)
+- **Skill:** [harnessing/2-scan/secure-rpm-audit/SKILL.md](../harnessing/2-scan/secure-rpm-audit/SKILL.md)
 
 ## security-audit-phased
 
@@ -230,8 +230,8 @@ Use when a reviewer wants to steer a security code audit between phases — Phas
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/security-audit-cvss`, `/security-audit-follow-up-seeds`, `/security-audit-init`, `/security-audit-p2`, `/security-audit-p3`, `/security-audit-p4`, `/security-audit-p6`, `/security-audit-review`
-- **Skill:** [harnessing/3-audit/security-audit-phased/SKILL.md](../harnessing/3-audit/security-audit-phased/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/3-audit/security-audit-phased/SKILL.md#integrations)
+- **Skill:** [harnessing/2-scan/security-audit-phased/SKILL.md](../harnessing/2-scan/security-audit-phased/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/2-scan/security-audit-phased/SKILL.md#integrations)
 
 ## vuln-scan
 
@@ -240,8 +240,8 @@ Static source-code vulnerability scan. Reads a target directory (and its threat 
 - **Stage:** ③ Audit
 - **Tier:** `primary`
 - **Invoke:** `/vuln-scan` — arguments: `<target-dir> [--diff [--since <commit>]] [--baseline <audit.json>] [--focus <area>] [--single] [--extra <file>] [--no-score]`
-- **Skill:** [harnessing/3-audit/vuln-scan/SKILL.md](../harnessing/3-audit/vuln-scan/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/3-audit/vuln-scan/SKILL.md#integrations)
+- **Skill:** [harnessing/2-scan/vuln-scan/SKILL.md](../harnessing/2-scan/vuln-scan/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/2-scan/vuln-scan/SKILL.md#integrations)
 
 ## countersign
 
@@ -250,8 +250,8 @@ Review and sign off pending human decisions in the findings disposition ledger �
 - **Stage:** ④ Triage
 - **Tier:** `primary`
 - **Invoke:** `/countersign` — arguments: `[<findings-root>|<product>/<repo>] [--identity <token-holder>]`
-- **Skill:** [harnessing/4-triage/countersign/SKILL.md](../harnessing/4-triage/countersign/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/4-triage/countersign/SKILL.md#integrations)
+- **Skill:** [harnessing/3-triage/countersign/SKILL.md](../harnessing/3-triage/countersign/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/3-triage/countersign/SKILL.md#integrations)
 
 ## track-findings
 
@@ -260,8 +260,8 @@ Use when the user wants to record human triage feedback or machine validation re
 - **Stage:** ④ Triage
 - **Tier:** `primary`
 - **Invoke:** `/track-findings`
-- **Skill:** [harnessing/4-triage/track-findings/SKILL.md](../harnessing/4-triage/track-findings/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/4-triage/track-findings/SKILL.md#integrations)
+- **Skill:** [harnessing/3-triage/track-findings/SKILL.md](../harnessing/3-triage/track-findings/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/3-triage/track-findings/SKILL.md#integrations)
 
 ## triage
 
@@ -270,8 +270,8 @@ Triage a batch of raw security findings. Verify each is real, collapse duplicate
 - **Stage:** ④ Triage
 - **Tier:** `primary`
 - **Invoke:** `/triage` — arguments: `<findings-path> [--auto] [--votes N] [--repo PATH] [--fp-rules FILE] [--fresh]`
-- **Skill:** [harnessing/4-triage/triage/SKILL.md](../harnessing/4-triage/triage/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/4-triage/triage/SKILL.md#integrations)
+- **Skill:** [harnessing/3-triage/triage/SKILL.md](../harnessing/3-triage/triage/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/3-triage/triage/SKILL.md#integrations)
 
 ## validate-browser-finding
 
@@ -280,8 +280,8 @@ Use when validating browser-exploitable findings such as CSRF, XSS, or clickjack
 - **Stage:** ⑤ Validation
 - **Tier:** `primary`
 - **Invoke:** `/validate-browser-finding`
-- **Skill:** [harnessing/5-validate/validate-browser-finding/SKILL.md](../harnessing/5-validate/validate-browser-finding/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/5-validate/validate-browser-finding/SKILL.md#integrations)
+- **Skill:** [harnessing/4-validate/validate-browser-finding/SKILL.md](../harnessing/4-validate/validate-browser-finding/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/4-validate/validate-browser-finding/SKILL.md#integrations)
 
 ## validate-findings
 
@@ -290,8 +290,8 @@ Use when the user asks to validate, reproduce, exploit, red-team, or live-test s
 - **Stage:** ⑤ Validation
 - **Tier:** `primary`
 - **Invoke:** `/validate-findings`
-- **Skill:** [harnessing/5-validate/validate-findings/SKILL.md](../harnessing/5-validate/validate-findings/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/5-validate/validate-findings/SKILL.md#integrations)
+- **Skill:** [harnessing/4-validate/validate-findings/SKILL.md](../harnessing/4-validate/validate-findings/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/4-validate/validate-findings/SKILL.md#integrations)
 
 ## create-fuzzing
 
@@ -300,8 +300,8 @@ Use when the user asks to write, scaffold, run, or extend a fuzz harness for a p
 - **Stage:** ⑥ Fuzzing
 - **Tier:** `primary`
 - **Invoke:** `/create-fuzzing`
-- **Skill:** [harnessing/6-fuzz/create-fuzzing/SKILL.md](../harnessing/6-fuzz/create-fuzzing/SKILL.md)
-- **Produces / consumes:** [Integrations](../harnessing/6-fuzz/create-fuzzing/SKILL.md#integrations)
+- **Skill:** [harnessing/5-fuzz/create-fuzzing/SKILL.md](../harnessing/5-fuzz/create-fuzzing/SKILL.md)
+- **Produces / consumes:** [Integrations](../harnessing/5-fuzz/create-fuzzing/SKILL.md#integrations)
 
 ## fleet-fix
 

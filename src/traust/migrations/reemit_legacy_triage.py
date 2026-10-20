@@ -49,7 +49,7 @@ from traust.paths import skill_dir
 _TRIAGE_SCRIPTS = skill_dir("triage") / "scripts"
 if not _TRIAGE_SCRIPTS.is_dir():
     sys.exit(
-        f"ERROR: harnessing/4-triage/triage/scripts not found at {_TRIAGE_SCRIPTS} "
+        f"ERROR: harnessing/3-triage/triage/scripts not found at {_TRIAGE_SCRIPTS} "
         "(expected under traust repo root — "
         "parents[3] from src/traust/migrations/)"
     )

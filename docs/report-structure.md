@@ -175,6 +175,6 @@ projections.
    needs_review — never silently dropped). Rebaseline also migrates the layer's
    claim-hash pins to the new baseline (superseded old ids with an alias or a
    queued decision are unpinned; run
-   `harnessing/4-triage/track-findings/scripts/baseline_claims.py record`
+   `harnessing/3-triage/track-findings/scripts/baseline_claims.py record`
    afterwards to pin the new report's claims) and repoints
    `metadata.audit_commit`.

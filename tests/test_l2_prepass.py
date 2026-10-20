@@ -1,4 +1,4 @@
-"""Tests for harnessing/3-audit/pqc-readiness/scripts/l2_prepass.py routing."""
+"""Tests for harnessing/2-scan/pqc-readiness/scripts/l2_prepass.py routing."""
 
 import unittest
 

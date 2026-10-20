@@ -24,14 +24,14 @@ class TestDecisionTree(unittest.TestCase):
         import jsonschema
 
         tree = self._load(
-            "harnessing/3-audit/pqc-readiness/notes/reference/pqc-readiness-decision-tree.json"
+            "harnessing/2-scan/pqc-readiness/notes/reference/pqc-readiness-decision-tree.json"
         )
         schema = _load_schema("pqc-decision-tree")
         jsonschema.validate(tree, schema)
 
     def test_crosswalk_covers_every_provenance_class(self):
         tree = self._load(
-            "harnessing/3-audit/pqc-readiness/notes/reference/pqc-readiness-decision-tree.json"
+            "harnessing/2-scan/pqc-readiness/notes/reference/pqc-readiness-decision-tree.json"
         )
         xwalk = tree["tls_control_crosswalk"]
         covered = set()
@@ -53,7 +53,7 @@ class TestDecisionTree(unittest.TestCase):
 
     def test_classification_map_values_match_report_schema(self):
         tree = self._load(
-            "harnessing/3-audit/pqc-readiness/notes/reference/pqc-readiness-decision-tree.json"
+            "harnessing/2-scan/pqc-readiness/notes/reference/pqc-readiness-decision-tree.json"
         )
         report = _load_schema("report")
         allowed = set(report["$defs"]["finding"]["properties"]["pqc_classification"]["enum"])
@@ -172,7 +172,7 @@ class TestReadinessValidatorNewFields(unittest.TestCase):
         return subprocess.run(
             [
                 sys.executable,
-                str(ROOT / "harnessing/3-audit/pqc-readiness/scripts/pqc_facts.py"),
+                str(ROOT / "harnessing/2-scan/pqc-readiness/scripts/pqc_facts.py"),
                 "--validate-readiness",
                 str(p),
             ],

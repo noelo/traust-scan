@@ -1,1 +1,0 @@
-../../.claude/commands/attack-coverage.md

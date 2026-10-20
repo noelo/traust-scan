@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for harnessing/5-validate/validate-findings/scope.py — the safety-critical
+Tests for harnessing/4-validate/validate-findings/scope.py — the safety-critical
 scope guard that gates every live action in the validate-findings harness.
 """
 

@@ -1,1 +1,0 @@
-../../.claude/commands/security-audit-follow-up-seeds.md

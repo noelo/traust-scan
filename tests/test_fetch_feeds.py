@@ -285,7 +285,7 @@ def test_main_without_workloads_is_unknown(tmp_path):
 def test_all_excludes_internal_feeds(tmp_path):
     """`--feed all` is what unattended lanes invoke.
 
-    harnessing/3-audit/dependency-watch runs fetch_feeds.py bare on a daily
+    harnessing/2-scan/dependency-watch runs fetch_feeds.py bare on a daily
     cadence and main() returns 1 for an unusable feed, so a VPN-only feed
     in the default set would fail that lane on every off-VPN run.
     """

@@ -1,1 +1,0 @@
-../../.claude/commands/findings-trends.md

@@ -84,7 +84,7 @@ def test_e2_no_authorization_header_in_curl_argv():
 
 
 def test_e9_pqc_build_dir():
-    s = _src("harnessing/3-audit/pqc-readiness/build_pqc_scan.sh")
+    s = _src("harnessing/2-scan/pqc-readiness/build_pqc_scan.sh")
     assert ":-/tmp/pqc-scan-src" not in s
 
 
@@ -97,7 +97,7 @@ def test_c1_container_leg():
 
 
 def test_c3_fuzz_pins_and_offline():
-    s = _src("harnessing/6-fuzz/create-fuzzing/Makefile")
+    s = _src("harnessing/5-fuzz/create-fuzzing/Makefile")
     assert "atheris==" in s and "@jazzer.js/core@" in s
     assert "GOPROXY=off" in s
     assert ">/dev/null 2>&1" not in s.split("jazzer.js/core")[1][:120]
@@ -127,7 +127,7 @@ def test_d2_d6_allowlists_present():
 
 
 def test_p3_endpoint_host_gate():
-    s = _src("harnessing/5-validate/validate-findings/credential_liveness.py")
+    s = _src("harnessing/4-validate/validate-findings/credential_liveness.py")
     assert "CANONICAL_PROBE_HOSTS" in s
     assert "refusing to send recovered secrets" in s
 

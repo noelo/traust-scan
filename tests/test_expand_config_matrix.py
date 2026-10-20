@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for harnessing/3-audit/secure-code-audit/scripts/expand_config_matrix.py — the Phase-B1 (D3)
+"""Tests for harnessing/2-scan/secure-code-audit/scripts/expand_config_matrix.py — the Phase-B1 (D3)
 effective-defaults expander. Each fixture family mirrors one measured
 config/DSN miss shape from fn-analysis §4 / deep-fn-technique-plan §1.3:
 helm values chain (trustee shape), code-side fallback branch

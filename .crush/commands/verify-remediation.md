@@ -1,1 +1,0 @@
-../../.claude/commands/verify-remediation.md

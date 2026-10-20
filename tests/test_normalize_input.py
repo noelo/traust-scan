@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for harnessing/4-triage/triage/scripts/normalize_input.py (SARIF plan P1).
+"""Tests for harnessing/3-triage/triage/scripts/normalize_input.py (SARIF plan P1).
 
 Covers: format detection for all three arms (SARIF 2.x from any producer,
 Dependabot alerts export, govulncheck -json concatenated stream),
@@ -29,7 +29,7 @@ def _load(name, rel):
     return mod
 
 
-ni = _load("normalize_input", "harnessing/4-triage/triage/scripts/normalize_input.py")
+ni = _load("normalize_input", "harnessing/3-triage/triage/scripts/normalize_input.py")
 es = _load("export_sarif", "traust_engine.reporting.sarif")
 
 

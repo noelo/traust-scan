@@ -382,7 +382,7 @@ EXEMPTIONS: dict[tuple[str, str], str] = {
     # unused exemption cannot hide a genuinely orphaned output.
     (
         "A1",
-        "harnessing/5-validate/validate-findings/SKILL.md",
+        "harnessing/4-validate/validate-findings/SKILL.md",
     ): "cross-repo: cites validate-core-ocp/scripts/gen_targets.py, now in "
     "the internal extension repo (upstream plan Phase 4)",
     (
