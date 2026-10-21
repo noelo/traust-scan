@@ -78,10 +78,46 @@ spec:
       - name: source
     workspaces:
     - {name: source, workspace: source}
+  - name: threat-model
+    params:
+    - {name: repo-name, value: $(tasks.clone.results.repo-name)}
+    - {name: project-id, value: $(params.project-id)}
+    runAfter: [clone]
+    taskSpec:
+      params:
+      - {name: repo-name, type: string}
+      - {name: project-id, type: string}
+      steps:
+      - name: threat-model
+        image: image-registry.openshift-image-registry.svc:5000/deepsec/traust-scan-toolchain:latest
+        envFrom:
+        - secretRef:
+            name: tmm-llm-access
+        script: |-
+          set -e
+          export PYTHONUTF8=1 PYTHONIOENCODING=utf-8 LANG=C.UTF-8 LC_ALL=C.UTF-8
+          REPO="$(workspaces.source.path)/repo/$(params.repo-name)"
+          WORK="$(workspaces.source.path)/work/$(params.project-id)"
+          mkdir -p "$WORK"
+          cd "$REPO"
+          echo "=== threat-model (pi agent, bootstrap mode) ==="
+          pi-setup > /dev/null
+          timeout 1500 pi --model deepsec/glm-53-flash --skill /opt/pi-agent/skills/threat-model --print "bootstrap $(pwd)" || true
+          TM=$(ls -t "$REPO"/*-threat-model.md 2>/dev/null | head -1)
+          if [ -n "$TM" ]; then
+            cp "$TM" "$WORK/"
+            echo "threat model: $(basename "$TM") ($(stat -c%s "$TM") bytes)"
+          else
+            echo "WARNING: no *-threat-model.md produced"
+          fi
+      workspaces:
+      - name: source
+    workspaces:
+    - {name: source, workspace: source}
   - name: upload
     params:
     - {name: project-id, value: $(params.project-id)}
-    runAfter: [deterministic-scan]
+    runAfter: [deterministic-scan, threat-model]
     taskSpec:
       params:
       - {name: project-id, type: string}
