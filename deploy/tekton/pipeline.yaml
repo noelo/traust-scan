@@ -1,0 +1,129 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: traust-scan-pipeline
+spec:
+  params:
+  - name: repo-url
+    type: string
+    description: Git repo to scan (any repo, any ref — no inventory needed)
+  - name: revision
+    type: string
+    default: main
+  - name: project-id
+    type: string
+    default: traust-scan-default
+  tasks:
+  - name: clone
+    params:
+    - {name: url, value: $(params.repo-url)}
+    - {name: revision, value: $(params.revision)}
+    taskRef:
+      kind: Task
+      name: traust-scan-clone
+    workspaces:
+    - {name: output, workspace: source}
+  - name: deterministic-scan
+    params:
+    - {name: repo-name, value: $(tasks.clone.results.repo-name)}
+    - {name: project-id, value: $(params.project-id)}
+    runAfter: [clone]
+    taskSpec:
+      params:
+      - {name: repo-name, type: string}
+      - {name: project-id, type: string}
+      stepTemplate:
+        env:
+        - {name: PROJECT_ID, value: $(params.project-id)}
+      steps:
+      - name: scan
+        image: image-registry.openshift-image-registry.svc:5000/deepsec/traust-scan-toolchain:latest
+        script: |-
+          set -e
+          export PYTHONUTF8=1 PYTHONIOENCODING=utf-8 LANG=C.UTF-8 LC_ALL=C.UTF-8
+          REPO="$(workspaces.source.path)/repo/$(params.repo-name)"
+          WORK="$(workspaces.source.path)/work/$(params.project-id)"
+          RULES=/harness/harnessing/2-scan/secure-code-audit
+          mkdir -p "$WORK"
+          cd "$WORK"
+          echo "=== gitleaks (secrets, working tree) ==="
+          gitleaks detect --source "$REPO" \
+            --config "$RULES/gitleaks-rules/gitleaks-default.toml" \
+            --no-git --report-format json --report-path "$WORK/gitleaks.json" \
+            --exit-code 0 || true
+          echo "=== opengrep SAST ==="
+          opengrep scan --config "$RULES/opengrep-rules" \
+            --json -o "$WORK/opengrep.json" "$REPO" || true
+          echo "=== syft SBOM ==="
+          syft scan "dir:$REPO" -o json > "$WORK/sbom.json" || true
+          echo "=== grype (offline DB) ==="
+          grype "sbom:$WORK/sbom.json" -o json > "$WORK/grype.json" || true
+          echo "=== osv-scanner (offline DB) ==="
+          osv-scanner scan source --offline-vulnerabilities --format json \
+            -r "$REPO" > "$WORK/osv.json" || true
+          if [ -f "$REPO/requirements.txt" ]; then
+            echo "=== pip-audit ==="
+            pip-audit -r "$REPO/requirements.txt" -f json > "$WORK/pip-audit.json" || true
+          fi
+          if [ -f "$REPO/go.mod" ]; then
+            echo "=== govulncheck ==="
+            cd "$REPO" && govulncheck -json ./... > "$WORK/govulncheck.json" || true
+          fi
+          echo "=== findings ==="
+          ls -la "$WORK"
+          for f in "$WORK"/*.json; do
+            printf '%s: %s bytes\n' "$(basename "$f")" "$(stat -c%s "$f")"
+          done
+      workspaces:
+      - name: source
+    workspaces:
+    - {name: source, workspace: source}
+  - name: upload
+    params:
+    - {name: project-id, value: $(params.project-id)}
+    runAfter: [deterministic-scan]
+    taskSpec:
+      params:
+      - {name: project-id, type: string}
+      stepTemplate:
+        env:
+        - {name: MINIO_USER, valueFrom: {secretKeyRef: {name: minio-secret, key: minio_root_user}}}
+        - {name: MINIO_PASSWORD, valueFrom: {secretKeyRef: {name: minio-secret, key: minio_root_password}}}
+        - {name: MINIO_ENDPOINT, value: http://minio-service:9000}
+        - name: REPORTS_DIR
+          value: $(workspaces.source.path)/work/$(params.project-id)
+      steps:
+      - name: upload
+        image: image-registry.openshift-image-registry.svc:5000/deepsec/traust-scan-toolchain:latest
+        script: |-
+          set -e
+          ls -la "$REPORTS_DIR"
+          python3.11 - <<'PYEOF'
+          import os, glob, boto3
+          s3 = boto3.client(
+              "s3",
+              endpoint_url=os.environ["MINIO_ENDPOINT"],
+              aws_access_key_id=os.environ["MINIO_USER"],
+              aws_secret_access_key=os.environ["MINIO_PASSWORD"],
+          )
+          bucket = "reports"
+          try:
+              s3.head_bucket(Bucket=bucket)
+          except Exception:
+              s3.create_bucket(Bucket=bucket)
+          prefix = "$(params.project-id)"
+          count = 0
+          for f in sorted(glob.glob(os.path.join(os.environ["REPORTS_DIR"], "*"))):
+              if os.path.isfile(f):
+                  key = f"{prefix}/{os.path.basename(f)}"
+                  s3.upload_file(f, bucket, key)
+                  print(f"uploaded {key} ({os.path.getsize(f)} bytes)")
+                  count += 1
+          print(f"=== uploaded {count} report files to s3://{bucket}/{prefix}/ ===")
+          PYEOF
+      workspaces:
+      - name: source
+    workspaces:
+    - {name: source, workspace: source}
+  workspaces:
+  - name: source

@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: traust-scan-run-
+spec:
+  pipelineRef:
+    name: traust-scan-pipeline
+  params:
+  - name: repo-url
+    value: https://github.com/noelo/traust-scan
+  - name: revision
+    value: main
+  - name: project-id
+    value: traust-scan-default
+  workspaces:
+  - name: source
+    persistentVolumeClaim:
+      claimName: traust-scan-workspace
