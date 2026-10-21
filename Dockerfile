@@ -143,6 +143,38 @@ RUN if [ "$SKIP_DB" = "0" ]; then \
       osv-scanner scan source --offline-vulnerabilities --download-offline-databases -r /tmp || true; \
     fi
 
+# --- Pi harness (agent skills runtime) ---
+# Node 22.19+ required by pi; installed to /usr/local so pi lands on PATH.
+# The node tarball ships in the build context (_build/node) — nodejs.org is
+# 404-blocked by the cluster's egress proxy for build pods.
+# NOTE: x64 build — the target cluster is x86_64 only.
+ARG NODE_VERSION=22.23.4
+COPY _build/node/node-v${NODE_VERSION}-linux-x64.tar.gz /tmp/node.tar.gz
+RUN tar -C /usr/local --strip-components=1 -xzf /tmp/node.tar.gz && rm /tmp/node.tar.gz
+RUN npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+
+# Pi agent directory (skills + models config). PI_CODING_AGENT_DIR overrides the
+# default ~/.pi/agent so the baked data is found regardless of the runtime HOME.
+ENV PI_CODING_AGENT_DIR=/opt/pi-agent
+
+# Traust skills: copy every skill dir containing SKILL.md (stage-nested
+# harnessing/<stage>/<skill> AND cross-cutting harnessing/<skill>) flat into
+# the agent-dir skills location; Pi discovers SKILL.md dirs recursively.
+RUN mkdir -p /opt/pi-agent/skills && \
+    find /harness/harnessing -mindepth 1 -maxdepth 3 -type d \
+      -exec test -f '{}/SKILL.md' ';' -exec cp -r '{}' /opt/pi-agent/skills/ ';' && \
+    ls /opt/pi-agent/skills/
+
+# OpenAI-compatible model endpoints configured from environment variables:
+# $MODEL_BASE_URL (endpoint) + $LLMAPIKEY (key, interpolated by pi itself per
+# the models docs). Values come from the deepsec `llm-access` Secret at
+# runtime — nothing baked in. baseUrl is NOT env-interpolated by pi (only
+# apiKey/header values are), so pi-setup writes the agent-dir models.json
+# from the template at runtime before pi runs.
+COPY pi-models.json /opt/pi-agent/models.json.tmpl
+COPY pi-setup.sh /usr/local/bin/pi-setup
+RUN chmod -R a+rwX /opt/pi-agent && chmod +x /usr/local/bin/pi-setup
+
 # --- Smoke test: verify all tools resolve ---
 RUN opengrep --version && \
     gitleaks version && \
