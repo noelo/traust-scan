@@ -12,6 +12,77 @@ spec:
     value: main
   - name: project-id
     value: traust-scan-default
+  # ── Full-campaign per-stage parameters (docs/parameters.md §1).
+  #    All have pipeline defaults; override only what you use.
+  #    File parameters are workspace-relative LOCATIONs — place files
+  #    under inputs/ in the traust-scan-workspace PVC (or give absolute
+  #    paths) before the run.
+  #
+  # ② Threat model
+  - name: threat-model-mode
+    value: bootstrap
+  - name: vulns-file
+    value: ""            # e.g. inputs/vulns.txt (CVE list / CSV / pentest report)
+  - name: design-doc
+    value: ""            # e.g. inputs/design.md
+  - name: context-paths
+    value: ""            # e.g. inputs/api-spec.yaml,inputs/sbom.json
+  - name: seed-model
+    value: ""
+  # ③ Audit
+  - name: product-name
+    value: ""            # findings-tree product segment
+  - name: confidence-pass
+    value: "false"       # true = LLM confidence pass (needs a model)
+  # ④ Triage
+  - name: findings-path
+    value: ""
+  - name: triage-votes
+    value: "3"
+  - name: fp-rules-file
+    value: ""
+  - name: triage-auto
+    value: "true"
+  # ⑤ Live validation
+  - name: live-target
+    value: ""            # kubeconfig location / cluster context (fail-closed without it)
+  - name: lab-target-url
+    value: ""
+  - name: validation-manifest
+    value: ""
+  - name: validation-scope
+    value: ""
+  # ⑥ Fuzzing
+  - name: targets-json
+    value: ""
+  - name: fuzz-entry-points
+    value: ""
+  - name: refuted-register
+    value: ""
+  # ⑦ Remediation
+  - name: fork-url
+    value: ""
+  - name: finding-ids
+    value: ""
+  # ⑧ Report packaging
+  - name: report-findings-dir
+    value: ""
+  - name: drive-sharing-config
+    value: ""
+  # ⑨ Owners
+  - name: owners-csv
+    value: ""            # e.g. inputs/owners.csv
+  - name: org-structures
+    value: ""
+  - name: ldap-server
+    value: ""
+  - name: escalation-contacts
+    value: ""
+  # ① Inventory
+  - name: inventory-segment
+    value: adhoc
+  - name: corpus-config
+    value: ""
   workspaces:
   - name: source
     persistentVolumeClaim:

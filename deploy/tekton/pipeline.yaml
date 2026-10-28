@@ -4,6 +4,7 @@ metadata:
   name: traust-scan-pipeline
 spec:
   params:
+  # ── Core ─────────────────────────────────────────────────────────
   - name: repo-url
     type: string
     description: Git repo to scan (any repo, any ref — no inventory needed)
@@ -13,6 +14,131 @@ spec:
   - name: project-id
     type: string
     default: traust-scan-default
+  # ── ① Inventory (docs/parameters.md §1) ──────────────────────────
+  - name: inventory-segment
+    type: string
+    default: adhoc
+    description: Portfolio segment for inventory registration (or adhoc)
+  - name: owners-csv
+    type: string
+    default: ""
+    description: ①⑨ File LOCATION of owners.csv (workspace-relative path) — repo→owner rows
+  - name: corpus-config
+    type: string
+    default: ""
+    description: ① File LOCATION of the corpus-config registration file
+  # ── ② Threat model ───────────────────────────────────────────────
+  - name: threat-model-mode
+    type: string
+    default: bootstrap
+    description: ② Mode token (bootstrap|interview|bootstrap-then-interview|review|update|pr)
+  - name: vulns-file
+    type: string
+    default: ""
+    description: ② File LOCATION of past vulnerabilities (CVE list, CSV, markdown pentest report, JSON) — spawns the vuln-file parser sub-agent
+  - name: design-doc
+    type: string
+    default: ""
+    description: ② File LOCATION of the architecture/design doc
+  - name: context-paths
+    type: string
+    default: ""
+    description: ② Comma-separated file LOCATIONs of context docs (API specs, SBOMs, IaC, prior threat models, SAR exports)
+  - name: seed-model
+    type: string
+    default: ""
+    description: ② File LOCATION of a prior threat model to seed interview from
+  # ── ③ Audit ──────────────────────────────────────────────────────
+  - name: product-name
+    type: string
+    default: ""
+    description: ③ Findings-tree product segment (analysis-results/findings/<product>/<repo>/)
+  - name: confidence-pass
+    type: string
+    default: "false"
+    description: ③ Run the LLM confidence pass (needs a model); false = --no-score behaviour
+  # ── ④ Triage ─────────────────────────────────────────────────────
+  - name: findings-path
+    type: string
+    default: ""
+    description: ④ File LOCATION of the security-audit JSON to triage
+  - name: triage-votes
+    type: string
+    default: "3"
+    description: ④ N-vote adversarial verification count
+  - name: fp-rules-file
+    type: string
+    default: ""
+    description: ④ File LOCATION of custom false-positive rules
+  - name: triage-repo
+    type: string
+    default: ""
+    description: ④ Checkout for evidence grounding (defaults to the cloned repo)
+  - name: triage-auto
+    type: string
+    default: "true"
+    description: ④ Skip interactive prompts for batch runs
+  # ── ⑤ Live validation ────────────────────────────────────────────
+  - name: live-target
+    type: string
+    default: ""
+    description: ⑤ Authorized live target — kubeconfig file LOCATION or cluster context; validation fails closed without it
+  - name: lab-target-url
+    type: string
+    default: ""
+    description: ⑤ Lab target URL for browser-exploitable findings (validate-browser-finding)
+  - name: validation-manifest
+    type: string
+    default: ""
+    description: ⑤ File LOCATION of the OLM validation manifest
+  - name: validation-scope
+    type: string
+    default: ""
+    description: ⑤ Authorization scope boundary for live validation
+  # ── ⑥ Fuzzing ────────────────────────────────────────────────────
+  - name: targets-json
+    type: string
+    default: ""
+    description: ⑥ File LOCATION of targets.json (fuzz target id, repo, language, entry points)
+  - name: fuzz-entry-points
+    type: string
+    default: ""
+    description: ⑥ Comma-separated parser/decoder/templater entry points flagged in the audit
+  - name: refuted-register
+    type: string
+    default: ""
+    description: ⑥ File LOCATION of the refuted (FP-dismissed) register — priority fuzz targets
+  # ── ⑦ Remediation ────────────────────────────────────────────────
+  - name: fork-url
+    type: string
+    default: ""
+    description: ⑦ Private fork URL for remediation patches
+  - name: finding-ids
+    type: string
+    default: ""
+    description: ⑦ Comma-separated finding IDs for verify-remediation re-audit
+  # ── ⑧ Report packaging ───────────────────────────────────────────
+  - name: report-findings-dir
+    type: string
+    default: ""
+    description: ⑧ File LOCATION of processed-results findings folders to package
+  - name: drive-sharing-config
+    type: string
+    default: ""
+    description: ⑧ File LOCATION of the Drive sharing plan YAML
+  # ── ⑨ Owners ─────────────────────────────────────────────────────
+  - name: org-structures
+    type: string
+    default: ""
+    description: ⑨ File LOCATION of org repo team structures YAML
+  - name: ldap-server
+    type: string
+    default: ""
+    description: ⑨ LDAP server for owner identity verification (HARNESS_LDAP_SERVER)
+  - name: escalation-contacts
+    type: string
+    default: ""
+    description: ⑨ File LOCATION of escalation contacts (commenter grants, never owner slots)
   tasks:
   - name: clone
     params:
@@ -93,6 +219,11 @@ spec:
         envFrom:
         - secretRef:
             name: tmm-llm-access
+        env:
+        - {name: VULNS_FILE, value: $(params.vulns-file)}
+        - {name: DESIGN_DOC, value: $(params.design-doc)}
+        - {name: CONTEXT_PATHS, value: $(params.context-paths)}
+        - {name: SEED_MODEL, value: $(params.seed-model)}
         script: |-
           set -e
           export PYTHONUTF8=1 PYTHONIOENCODING=utf-8 LANG=C.UTF-8 LC_ALL=C.UTF-8
@@ -100,9 +231,31 @@ spec:
           WORK="$(workspaces.source.path)/work/$(params.project-id)"
           mkdir -p "$WORK"
           cd "$REPO"
-          echo "=== threat-model (pi agent, bootstrap mode) ==="
+          echo "=== threat-model (pi agent, $(params.threat-model-mode) mode) ==="
           pi-setup > /dev/null
-          timeout 1500 pi --model deepsec/glm-53-flash --skill /opt/pi-agent/skills/threat-model --print "bootstrap $(pwd)" || true
+          # File params are workspace-relative LOCATIONs; resolve to absolute paths.
+          WS="$(workspaces.source.path)"
+          FLAGS=""
+          if [ -n "$VULNS_FILE" ]; then
+            case "$VULNS_FILE" in /*) VULNS="$VULNS_FILE";; *) VULNS="$WS/$VULNS_FILE";; esac
+            FLAGS="$FLAGS --vulns $VULNS"
+          fi
+          if [ -n "$DESIGN_DOC" ]; then
+            case "$DESIGN_DOC" in /*) DOC="$DESIGN_DOC";; *) DOC="$WS/$DESIGN_DOC";; esac
+            FLAGS="$FLAGS --design-doc $DOC"
+          fi
+          if [ -n "$CONTEXT_PATHS" ]; then
+            CTX=""
+            for p in ${CONTEXT_PATHS//,/ }; do
+              case "$p" in /*) CTX="$CTX,$p";; *) CTX="$CTX,$WS/$p";; esac
+            done
+            FLAGS="$FLAGS --context ${CTX#,}"
+          fi
+          if [ -n "$SEED_MODEL" ]; then
+            case "$SEED_MODEL" in /*) SEED="$SEED_MODEL";; *) SEED="$WS/$SEED_MODEL";; esac
+            FLAGS="$FLAGS --seed $SEED"
+          fi
+          timeout 1500 pi --model deepsec/glm-53-flash --skill /opt/pi-agent/skills/threat-model --print "$(params.threat-model-mode) $(pwd)$FLAGS" || true
           TM=$(ls -t "$REPO"/*-threat-model.md 2>/dev/null | head -1)
           if [ -n "$TM" ]; then
             cp "$TM" "$WORK/"
